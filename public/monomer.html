@@ -1,0 +1,18 @@
+
+<html>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://rawgit.com/newrelic-forks/d3-plugins-sankey/v1.1.0/sankey.js"></script>
+<script src="https://rawgit.com/misoproject/d3.chart/master/d3.chart.min.js"></script>
+<script src="d3.chart.sankey.min.js"></script>
+<body>
+<script>
+d3.json('protein_monomer.json', function(err, monomers){
+	data = monomers.data;
+
+
+	var chart = d3.select("#chart").append("svg").chart("Sankey");
+	chart.draw({nodes: [], links: []});
+})
+</script>
+</body>
+</html>
