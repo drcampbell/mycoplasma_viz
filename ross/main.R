@@ -21,8 +21,8 @@ monomer_bins <- fillBins(monomer);
 
 
 # Load RNA Data
-filename <- "data/Gene.json";
-gene_i <- fromJSON(file=filename);
+# filename <- "data/Gene.json";
+# gene_i <- fromJSON(file=filename);
 filename <- "data/rna.json";
 RNA <- fromJSON(file=filename);
 RNA_bins <- fillBins(RNA);
