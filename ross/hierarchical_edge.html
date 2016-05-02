@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- Hierarchical Edge Bundling:
+     https://bl.ocks.org/mbostock/7607999 -->
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -70,8 +73,13 @@ h1 {
 	<!-- <option value="2">full graph</option> -->
 </select>
 <button type="button" id="submit" onclick=start()>Submit</button></h2>
-<br/>
-<h3 ><a href="gene_corr.html"> Or click to go to node representation. </a></h3>
+
+<h3 >
+Description:<br/>Below shows the connections between highly correlated RNA, complex or monomer data.
+<br/> Two names will be connected if they have a high correlation.<br/>
+Hover over a name to see the connections.<br/><br/>
+WARNING: Some data may not load correctly, if so, reload the page and re-select the data set.
+<br/><br/><a href="gene_corr.html"> Or click to go to node representation. </a></h3>
 <script src="d3/d3.v3.min.js"></script>
 <script>
 
@@ -102,6 +110,10 @@ var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 //tmp/tmp-data1.json
 function main (file) {
+
+  d3.selectAll("text").remove();
+  d3.selectAll("path").remove();
+  d3.selectAll("link").remove();
 d3.json(file, function(error, classes) {
   if (error) throw error;
 
@@ -213,6 +225,8 @@ function start() {
     main('output/RNA_hierarchial_edge.json');
   }
 }
+
+
 
 </script>
 </body>

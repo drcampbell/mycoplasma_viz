@@ -40,14 +40,16 @@ h1 {
 
 <h3 > Directions: Press 'd' to pause visualization, press 'f' to discretize visualization
 <a href="hierarchical_edge.html"> or click here to go to hierarchical. </a><br/><br/>
-
+Description: Below will appear a node for each type of RNA, monomer, or complex.<br/>The node
+will be placed depending on its expression level.<br/> The graph will update through time, as shown by the progess bar.
+<br/><br/>
 Low Expression<a style="padding-left:45em">High Expression</a><br/>
 <a style="padding-left:22em">Progress: <a id="bin_num">1</a> / 124</a><br/>
 </h3>
 <script src="d3/d3.v3.min.js"></script>
 <script>
 
-var bin_number=0;
+var bin_number=0; // hold the current bin number
 var on = true; // whether the interval is on
 var width = 1200,
     height = 500;
@@ -68,11 +70,8 @@ var svg = d3.select("body").append("svg")
 var node;
 var link;
 var progress;
-var updateColor=null;
+var updateColor=null; // updates graph every second
 
-// RNA_graph1.json
-// NOT WORKING FOR:
-// complex   monomer
 function main(file) {
 on = true;
 
@@ -100,15 +99,12 @@ link = svg.selectAll(".link")
       .attr("class", "node")
       .attr("r", radius).style("fill", "#00FF88")
 	  .call(force.drag);
-	  
 
-  
-	  
   node.append("title")
       .text(function(d) { return d.name; });
 
   var rects={};
-  for (var t=0; t<=5; t++) {
+  for (var t=0; t<=5; t++) { // set up the 5 rectangles
     rects[t] = svg.append("rect").attr("x", 10 + (250 * t)).attr("y", 35)
 			  .attr("width", 120)
 			  .attr("height", height-70)
@@ -118,6 +114,8 @@ link = svg.selectAll(".link")
 			  .attr("stroke-width", 3);
   
   }
+  
+  // The progress bar.
   var rects = svg.append("rect").attr("width", width).attr("height", 15)
               .attr("fill-opacity", 0)
 			  .attr("stroke-opacity", 0.2)
@@ -127,6 +125,8 @@ link = svg.selectAll(".link")
   progress = svg.append("rect").attr("fill-opacity", 1).attr("fill-color", "#000000").attr("width",  width).attr("height", 15).attr("stroke-opacity", 0.3)
 			  .attr("stroke", "black")
 			  .attr("stroke-width", 3);
+  
+  // initialize graph.
   switchColor();
   
 });
@@ -138,7 +138,6 @@ if (updateColor == null) { updateColor = setInterval(switchColor, 1000); }
 var one = false;
 
 
-// Get a node's position: node[0][i].cx.baseVal.value
 function switchColor() {
     if (!on) return;
 	node.style("fill", function (d) {
@@ -148,6 +147,8 @@ function switchColor() {
 	
 	node.attr("cx", position)
         .attr("cy", function(d) { return ((Math.random() * (height-100))+50); });
+		
+	// Hard-coded how to get the node locations.
     link
 	    .attr("x1", function(d) { return node[0][d.source].cx.baseVal.value; }) // d.source.x
         .attr("y1", function(d) { return node[0][d.source].cy.baseVal.value; }) // d.source.y
@@ -162,6 +163,7 @@ function switchColor() {
 }
 
 function position (d) {
+// Place in one of five rectangles depending on value
     var val = d.data[bin_number];
 	if (val <= 4) {
 	    return (Math.random()*100+20);
@@ -177,7 +179,7 @@ function position (d) {
 
 }
 
-// "output/rna_graph1.json"
+// Select the data to display.
 function start() {
   on = false;
   bin_number=0;
