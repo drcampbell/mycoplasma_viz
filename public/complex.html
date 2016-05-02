@@ -11,8 +11,7 @@
 <script src="javascripts/colorchooser.js"></script>
 
 <body>
-<h1>Protein Monomer Counts</h1>
-<h3>The labels tXcX indicates time step X, where there are 10 time steps corresponding to 3 seconds each.  cX corresponds to the count value of that a particular bin.  There are 20 bins available, each bin corresponds with an count range.  The size of each bin is related to the total number of counts within.  <h3> 
+<h1>Protein Complex Counts</h1>
 <p id ="chart">
 <script>
 
@@ -29,12 +28,14 @@ function getColor(name){
 }
 
 var units = "Counts";
+var unit2 = "Protein Complex";
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = 1200 - margin.left - margin.right,
     height = 740 - margin.top - margin.bottom;
  
 var formatNumber = d3.format(",.0f"),    // zero decimal places
     format = function(d) { return formatNumber(d) + " " + units; },
+    format2 = function(d) { return formatNumber(d) + " " + unit2; },
     color = d3.scale.category20();
  
 // append the svg canvas to the page
@@ -53,7 +54,7 @@ var sankey = d3.sankey()
 var path = sankey.link();
 
 var filename = 'data/test.json';
-var filename = 'data/monomer-graph.json'
+var filename = 'data/protein-complex-graph.json'
 
 addGraph(filename);
 
@@ -115,7 +116,7 @@ d3.json(filename, function(error, graph){
 		  return d3.rgb(d.color).darker(2); })
     .append("title")
       .text(function(d) { 
-		  return d.name + "\n" + format(d.value)+"\n" });
+		  return d.name + "\n" + format(d.value)+"\n" + format2(d.unique); });
  
 // add in the title for the nodes
   node.append("text")
